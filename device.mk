@@ -9,15 +9,63 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 # A/B
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
+
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+PRODUCT_PACKAGES += lib_android_keymaster_keymint_utils
+
+
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# Soong Configuration
+SOONG_CONFIG_NAMESPACES += itel_P671L
+SOONG_CONFIG_itel_P671L += use_vendor_bp
+SOONG_CONFIG_itel_P671L_use_vendor_bp := true
+
+PRODUCT_SOONG_NAMESPACES += \
+    device/itel/P671L \
+    vendor/itel/P671L \
+
+# Include device overlay
+PRODUCT_PACKAGE_OVERLAYS += \
+    $(LOCAL_PATH)/overlay
+
+
+PRODUCT_PACKAGES += \
+    sprd_brightness_fix
+    
+
+
+# =============================================
+# BOOT & A/B UPDATE PACKAGES
+# =============================================
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl \
     android.hardware.boot@1.2-impl.recovery \
     android.hardware.boot@1.2-service
+    
 
+# =============================================
+# HEALTH HAL
+# =============================================
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.1-impl \
+    android.hardware.health-service.example
+    
+    
+
+
+
+# =============================================
+# A/B UPDATE ENGINE
+# =============================================
 PRODUCT_PACKAGES += \
     update_engine \
     update_engine_sideload \
-    update_verifier
+    update_verifier \
+    checkpoint_gc \
+    otapreopt_script
+
+
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -31,22 +79,73 @@ AB_OTA_POSTINSTALL_CONFIG += \
     FILESYSTEM_TYPE_vendor=erofs \
     POSTINSTALL_OPTIONAL_vendor=true
 
+
+
+# API levels
+BOARD_API_LEVEL := 33
+PRODUCT_SHIPPING_API_LEVEL := 34
+
+
+
+
 PRODUCT_PACKAGES += \
     checkpoint_gc \
     otapreopt_script
 
-# API levels
-PRODUCT_SHIPPING_API_LEVEL := 34
-
-# fastbootd
+# =============================================
+# FASTBOOT
+# =============================================
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.1-impl-mock \
     fastbootd
 
-# Health
-PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl \
-    android.hardware.health@2.1-service
+# ===========================
+# MINIMAL STORAGE FIX - ADD ONLY THESE 4 LINES
+# ===========================
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp,adb
+    
+    
+    
+# ===========================
+# gapps deps
+# ===========================
+PRODUCT_OPTIONAL_USES_LIBRARIES += \
+    org.apache.http.legacy \
+    androidx.window.extensions \
+    androidx.window.sidecar
+
+PRODUCT_BROKEN_VERIFY_USES_LIBRARIES := true
+
+
+# ===========================
+# VINTF CONFIGURATION - MINIMAL
+# ===========================
+DEVICE_MANIFEST_FILE += device/itel/P671L/manifest.xml
+PRODUCT_ENFORCE_VINTF_MANIFEST := true
+
+
+
+# ===========================
+# DEVICE TREE BLOBS
+# ===========================
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/dtb.img:$(TARGET_COPY_OUT)/dtb.img
+    
+
+# ===========================
+# PLATFORM CONFIGURATION
+# ===========================
+ifneq ($(TARGET_BOARD_PLATFORM),)
+PRODUCT_PLATFORM := ums9230
+endif
+
+# ===========================
+# TEMPORARY SELINUX PERMISSIVE
+# ===========================
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+PRODUCT_PROPERTY_OVERRIDES += ro.boot.selinux=permissive
+
 
 # Kernel
 PRODUCT_ENABLE_UFFD_GC := true
