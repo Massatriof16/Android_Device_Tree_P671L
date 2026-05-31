@@ -10,11 +10,11 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
-    'device/itel/tssi_arm64_itel',
+    'device/itel/P671L',
 ]
 
 module = ExtractUtilsModule(
-    'tssi_arm64_itel',
+    'P671L',
     'itel',
     namespace_imports=namespace_imports,
 )

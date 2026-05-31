@@ -130,11 +130,11 @@ PRODUCT_PACKAGES += \
     init.zramwb.rc \
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/etc/fstab.P683LU:$(TARGET_VENDOR_RAMDISK_OUT)/first_stage_ramdisk/fstab.P683LU
+    $(LOCAL_PATH)/rootdir/etc/fstab.P671L:$(TARGET_VENDOR_RAMDISK_OUT)/first_stage_ramdisk/fstab.P671L
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)
 
 # Inherit the proprietary files
-$(call inherit-product, vendor/itel/tssi_arm64_itel/tssi_arm64_itel-vendor.mk)
+$(call inherit-product, vendor/itel/P671L/P671L-vendor.mk)

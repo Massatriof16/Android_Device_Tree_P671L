@@ -1,4 +1,4 @@
-# Unpinned blobs from tssi_arm64_itel_full-user 14 UP1A.231005.007 1452 release-keys
+# Unpinned blobs from P671L_full-user 14 UP1A.231005.007 1452 release-keys
 
 # Audio
 vendor/bin/hw/android.hardware.audio.service

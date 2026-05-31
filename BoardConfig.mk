@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-DEVICE_PATH := device/itel/tssi_arm64_itel
+DEVICE_PATH := device/itel/P671L
 
 # A/B
 AB_OTA_UPDATER := true
@@ -49,8 +49,8 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_KERNEL_IMAGE_NAME := Image
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_KERNEL_SEPARATED_DTBO := true
-TARGET_KERNEL_CONFIG := tssi_arm64_itel_defconfig
-TARGET_KERNEL_SOURCE := kernel/itel/tssi_arm64_itel
+TARGET_KERNEL_CONFIG := P671L_defconfig
+TARGET_KERNEL_SOURCE := kernel/itel/P671L
 
 # Kernel - prebuilt
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -62,6 +62,8 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG :=
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
 BOARD_KERNEL_SEPARATED_DTBO := 
 endif
+
+
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -115,4 +117,4 @@ BOARD_AVB_VENDOR_BOOT_ROLLBACK_INDEX_LOCATION := 1
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/manifest.xml
 
 # Inherit the proprietary files
-include vendor/itel/tssi_arm64_itel/BoardConfigVendor.mk
+include vendor/itel/P671L/BoardConfigVendor.mk
